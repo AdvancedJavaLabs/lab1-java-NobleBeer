@@ -15,6 +15,8 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.openjdk.jcstress:jcstress-core:0.16")
     testAnnotationProcessor("org.openjdk.jcstress:jcstress-core:0.16")
+    compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
 }
 
 tasks.test {
@@ -22,7 +24,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 
 application {
