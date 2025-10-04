@@ -29,7 +29,7 @@ class Graph {
     }
 
     // Паралелльный обход мамы
-    void parallelBFS(int startVertex) {
+    int parallelBFS(int startVertex) {
         var visited = new AtomicIntegerArray(V);
         visited.set(startVertex, 1);
 
@@ -38,6 +38,8 @@ class Graph {
 
         var pool = ForkJoinPool.commonPool();
         pool.invoke(new BFSLevelTask(startFrontier, visited));
+
+        return visited.length();
     }
 
     @RequiredArgsConstructor
