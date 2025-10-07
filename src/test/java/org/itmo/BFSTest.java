@@ -24,7 +24,7 @@ class BFSTest {
     }
 
     @Test
-    void bfsTest() throws IOException {
+    void bfsTest() throws IOException, InterruptedException {
         try (FileWriter fw = new FileWriter("tmp/results.txt")) {
             for (int i = 0; i < sizes.length; i++) {
                 System.out.println("--------------------------");
@@ -46,7 +46,12 @@ class BFSTest {
     void parallelBfsTest() {
         IntStream.range(0, sizes.length).forEach(i -> {
             var graph = new RandomGraphGenerator().generateGraph(random, sizes[i], connections[i]);
-            var visitedVertices = executeParallelBfsAndGetVisitedVertices(graph);
+            long visitedVertices = 0;
+            try {
+                visitedVertices = executeParallelBfsAndGetVisitedVertices(graph);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             assertEquals(sizes[i], visitedVertices);
         });
     }
@@ -58,14 +63,14 @@ class BFSTest {
         return endTime - startTime;
     }
 
-    private long executeParallelBfsAndGetTime(Graph g) {
+    private long executeParallelBfsAndGetTime(Graph g) throws InterruptedException {
         var startTime = System.currentTimeMillis();
         g.parallelBFS(0);
         var endTime = System.currentTimeMillis();
         return endTime - startTime;
     }
 
-    private long executeParallelBfsAndGetVisitedVertices(Graph g) {
+    private long executeParallelBfsAndGetVisitedVertices(Graph g) throws InterruptedException {
         return g.parallelBFS(0);
     }
 

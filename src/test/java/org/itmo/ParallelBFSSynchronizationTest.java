@@ -21,11 +21,11 @@ public class ParallelBFSSynchronizationTest {
     private final Graph graph = new RandomGraphGenerator()
             .generateGraph(new Random(42), GRAPH_SIZE, 2_000_000);;
 
-    private int result1;
-    private int result2;
-    private int result3;
-    private int result4;
-    private int result5;
+    private long result1;
+    private long result2;
+    private long result3;
+    private long result4;
+    private long result5;
 
     @Actor
     public void actor1() {
@@ -54,7 +54,7 @@ public class ParallelBFSSynchronizationTest {
 
     @Arbiter
     public void arbiter(Z_Result result) {
-        boolean allEqual = Arrays.stream(new int[]{result1, result2, result3, result4, result5})
+        boolean allEqual = Arrays.stream(new long[]{result1, result2, result3, result4, result5})
                 .allMatch(value -> value == result1);
 
         result.r1 = allEqual && result1 == GRAPH_SIZE;
